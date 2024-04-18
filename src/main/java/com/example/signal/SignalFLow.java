@@ -142,31 +142,6 @@ public class SignalFLow {
         }
     }
 
-    void init() {
-
-//        out = new ArrayList<>();
-        in = new ArrayList<>();
-        vis = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            vis.add(false);
-            in.add(false);
-        }
-
-
-        for (int i = 0; i < numbersArray.length; i++) {
-            // Create the inner ArrayList for this index
-            ArrayList<MyPair> innerList = new ArrayList<>();
-
-//            out.add(false);
-            // Add pairs of numbers to the inner list
-            for (int j = 0; j < numbersArray[i].length; j++) {
-                innerList.add(new MyPair(numbersArray[i][j][0], numbersArray[i][j][1]));
-            }
-            // Add the inner list to the graph
-            graph.add(innerList);
-        }
-    }
 
     void init(ArrayList<ArrayList<ArrayList<Integer>>> postedGraph) {
         in = new ArrayList<>();
@@ -381,7 +356,7 @@ public class SignalFLow {
     }
 
     void intiAllArrayList() {
-        init();
+
         findAllPaths(0, 1);
         findLoopsGains(0);
         combine();

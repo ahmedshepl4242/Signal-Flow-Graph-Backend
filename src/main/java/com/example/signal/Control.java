@@ -1,10 +1,7 @@
 package com.example.signal;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -19,8 +16,8 @@ public class Control {
 
 
     @GetMapping("/allKthNonTouchingloops")
-    public ArrayList<ArrayList<ArrayList<Integer>>> allKthNonTouchingloops(int k) {
-        return signalFlow.nonTouchingLoops.get(k);
+    public ArrayList<ArrayList<ArrayList<Integer>>> allKthNonTouchingloops(@RequestParam  int k) {
+        return signalFlow.nonTouchingLoops.get(k-2);
     }
 
     @GetMapping("/paths")
@@ -28,7 +25,7 @@ public class Control {
         return signalFlow.paths;
     }
 
-    @GetMapping("/allLoops")
+    @GetMapping("/allIndividualsLoops")
     public ArrayList<ArrayList<Integer>> getLoops() {
         return signalFlow.loops;
     }
@@ -49,8 +46,9 @@ public class Control {
     }
 
 
-    @PutMapping()
-    void runAllGragh() {
+    @PostMapping("/run")
+    void runAllGragh(@RequestBody  ArrayList<ArrayList<ArrayList<Integer>>> postedGraph) {
+        signalFlow.init(postedGraph);
         signalFlow.overAllTransferFunction();
     }
 
