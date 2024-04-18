@@ -1,7 +1,10 @@
 package com.example.signal;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
@@ -14,31 +17,41 @@ public class Control {
 
     SignalFLow signalFlow = new SignalFLow();
 
-    @PostMapping("/find-loops-paths")
-    public void findLoopsPaths(@RequestBody ArrayList<ArrayList<ArrayList<Integer>>> graph) {
-//       signalFlow.init(graph);
-        signalFlow.findPathsGains();
 
+    @GetMapping("/allKthNonTouchingloops")
+    public ArrayList<ArrayList<ArrayList<Integer>>> allKthNonTouchingloops(int k) {
+        return signalFlow.nonTouchingLoops.get(k);
     }
 
-//    @GetMapping("/loops")
-//    public ArrayList<ArrayList<Integer>> getLoops() {
-//        return signalFlow.findLoopsGains(0,1);
-//    }
+    @GetMapping("/paths")
+    public ArrayList<ArrayList<Integer>> getPaths() {
+        return signalFlow.paths;
+    }
 
-    //    @GetMapping("/paths")
-//    public ArrayList<ArrayList<Integer>> getPaths() {
-//
-//        return signalFlow.dfs(0,1);
-//    }
+    @GetMapping("/allLoops")
+    public ArrayList<ArrayList<Integer>> getLoops() {
+        return signalFlow.loops;
+    }
+
+    @GetMapping("/allDeltasOfAllPaths")
+    public ArrayList<Double> allDeltasOfAllPaths() {
+        return signalFlow.allDeltasOfAllPaths;
+    }
+
+    @GetMapping("/delta")
+    public Double getDelta() {
+        return signalFlow.getDelta();
+    }
+
+    @GetMapping("/transferFunction")
+    public Double transferFunction() {
+        return signalFlow.overAllTransferFunction();
+    }
+
+
     @PutMapping()
-    void put() {
-        signalFlow.findPathsGains();
-        signalFlow.combine();
-
-        signalFlow.printLoops();
-        signalFlow.computeDelta();
-
+    void runAllGragh() {
+        signalFlow.overAllTransferFunction();
     }
 
 }

@@ -7,6 +7,8 @@ import java.util.Stack;
 
 @Service
 public class SignalFLow {
+
+
     ArrayList<ArrayList<MyPair>> graph = new ArrayList<>();
     ArrayList<Boolean> in;
     //    ArrayList<Boolean> out;
@@ -31,10 +33,12 @@ public class SignalFLow {
 
     ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
     ArrayList<Double> pathsGains = new ArrayList<>();
+    ArrayList<Double> allDeltasOfAllPaths = new ArrayList<>();
     ArrayList<Double> loopsGains = new ArrayList<>();
     ArrayList<ArrayList<Integer>> loops = new ArrayList<>();
 
     static double delta = 0;
+    static double transferFunction = 0;
 
     double computeDelta() {
 
@@ -251,6 +255,7 @@ public class SignalFLow {
         System.out.println("every two loops");
         int j = 0;
 
+//        all non touching loops
         for (ArrayList<ArrayList<ArrayList<Integer>>> vc : nonTouchingLoops) {
             System.out.println(vc.size());
             i = 0;
@@ -271,19 +276,6 @@ public class SignalFLow {
 
     }
 
-
-    public void findKthNonTouchingLoops() {
-        init();
-        findAllPaths(0, 1);
-        print();
-    }
-
-    void findPathsGains() {
-        init();
-        findAllPaths(0, 1);
-        findLoopsGains(0);
-        print();
-    }
 
     void findLoopsGains(int i) {
         in.set(i, true);
@@ -348,6 +340,19 @@ public class SignalFLow {
         double gainTotall = getDelta();
         double sign = -1;
         int j = 0;
+
+        int index = 0;
+        for (ArrayList<Integer> lp : loops) {
+            boolean touch = false;
+            for (Integer ele : lp) {
+                if (vis.get(ele)) {
+                    touch = true;
+                    gainTotall += loopsGains.get(index);
+                    break;
+                }
+            }
+            index++;
+        }
         for (ArrayList<ArrayList<ArrayList<Integer>>> vc : nonTouchingLoops) {
             int k = 0;
             for (ArrayList<ArrayList<Integer>> v : vc) {
@@ -365,26 +370,34 @@ public class SignalFLow {
                     }
                 }
                 k++;
-                System.out.println("-------------------------------------");
+//                System.out.println("-------------------------------------");
             }
             j++;
 
         }
+        allDeltasOfAllPaths.add(gainTotall);
         return gainTotall * pathsGains.get(i);
 
     }
 
+    void intiAllArrayList() {
+        init();
+        findAllPaths(0, 1);
+        findLoopsGains(0);
+        combine();
+        printLoops();
+        print();
+    }
 
     double overAllTransferFunction() {
-
+        intiAllArrayList();
         delta = getDelta();
-
         double numerator = 1;
-
         for (int i = 0; i < paths.size(); i++) {
             numerator += computeDeltaForPathK(i);
         }
-        System.out.println(numerator/getDelta());
+        System.out.println("  numerator is " + numerator + " deltat is " + getDelta());
+        transferFunction = numerator / getDelta();
         return numerator / getDelta();
 
     }
