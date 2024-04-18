@@ -16,7 +16,7 @@ public class Control {
 
     @PostMapping("/find-loops-paths")
     public void findLoopsPaths(@RequestBody ArrayList<ArrayList<ArrayList<Integer>>> graph) {
-//       signalFlow.init(graph);
+       signalFlow.init(graph);
         signalFlow.findPathsGains();
 
     }
