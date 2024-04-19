@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-@CrossOrigin("api")
+@CrossOrigin()
 @Controller
 @RestController
-
 
 public class Control {
 
