@@ -3,6 +3,7 @@ package com.example.signal;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 @Service
@@ -367,11 +368,12 @@ public class SignalFLow {
     double overAllTransferFunction() {
         intiAllArrayList();
         delta = getDelta();
-        double numerator = 1;
+        double numerator = 0;
         for (int i = 0; i < paths.size(); i++) {
             numerator += computeDeltaForPathK(i);
         }
         System.out.println("  numerator is " + numerator + " deltat is " + getDelta());
+        System.out.println(paths.size());
         transferFunction = numerator / getDelta();
         return numerator / getDelta();
 
@@ -382,6 +384,21 @@ public class SignalFLow {
             delta = computeDelta();
         }
         return delta;
+    }
+
+    public void clear() {
+        graph = new ArrayList<>();
+        in = new ArrayList<>();
+        vis = new ArrayList<>();
+        st = new Stack<>();
+        temp = new Stack<>();
+        nonTouchingLoops = new ArrayList<>();
+        allDeltasOfAllPaths = new ArrayList<>();
+        paths = new ArrayList<>();
+        pathsGains = new ArrayList<>();
+        allDeltasOfAllPaths = new ArrayList<>();
+        loops = new ArrayList<>();
+        loopsGains = new ArrayList<>();
     }
 
 }
