@@ -1,22 +1,23 @@
 package com.example.signal;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-@CrossOrigin("api")
-@Controller
 @RestController
-
+@CrossOrigin(value = "http://localhost:8081/")
+@RequestMapping()
 
 public class Control {
-
-    SignalFLow signalFlow = new SignalFLow();
+@Autowired
+    SignalFLow signalFlow;
 
 
     @PostMapping("/receiveGraph")
     void runAllGragh(@RequestBody  ArrayList<ArrayList<ArrayList<Integer>>> postedGraph) {
+        signalFlow.clear();
         signalFlow.init(postedGraph);
         signalFlow.overAllTransferFunction();
     }
@@ -32,7 +33,7 @@ public class Control {
     }
 
     @GetMapping("/allKthNonTouchingloops")
-    public ArrayList<ArrayList<ArrayList<Integer>>> allKthNonTouchingloops(@RequestParam  int k) {
+    public ArrayList<ArrayList<ArrayList<Integer>>> allKthNonTouchingloops(@RequestParam Integer k) {
         return signalFlow.nonTouchingLoops.get(k-2);
     }
 
