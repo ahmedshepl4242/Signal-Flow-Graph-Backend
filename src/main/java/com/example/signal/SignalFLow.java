@@ -365,7 +365,7 @@ public class SignalFLow {
     double overAllTransferFunction() {
         intiAllArrayList();
         delta = getDelta();
-        double numerator = 1;
+        double numerator = 0;
         for (int i = 0; i < paths.size(); i++) {
             numerator += computeDeltaForPathK(i);
         }
@@ -381,5 +381,18 @@ public class SignalFLow {
         }
         return delta;
     }
-
+    public void clear() {
+        graph = new ArrayList<>();
+        in = new ArrayList<>();
+        vis = new ArrayList<>();
+        st = new Stack<>();
+        temp = new Stack<>();
+        nonTouchingLoops = new ArrayList<>();
+        allDeltasOfAllPaths = new ArrayList<>();
+        paths = new ArrayList<>();
+        pathsGains = new ArrayList<>();
+        allDeltasOfAllPaths = new ArrayList<>();
+        loops = new ArrayList<>();
+        loopsGains = new ArrayList<>();
+    }
 }

@@ -24,6 +24,8 @@ public class Control {
     @PostMapping("/receiveGraph")
     void runAllGragh(@RequestBody  ArrayList<ArrayList<ArrayList<Integer>>> postedGraph) {
         signalFlow.clear();
+        System.out.println("ok___");
+        System.out.println(postedGraph.size());
         signalFlow.init(postedGraph);
         signalFlow.overAllTransferFunction();
     }
