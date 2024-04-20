@@ -3,7 +3,6 @@ package com.example.signal;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Stack;
 
 @Service
@@ -20,17 +19,17 @@ public class SignalFLow {
     ArrayList<ArrayList<Double>> allNonTouchingGains = new ArrayList<>();
 
 
-    int[][][] numbersArray = {{{1, 3}}, // Numbers for index 0
-            {{2, 4}, {3, 5}, {6, 3}},    // Numbers for index 1
-            {{1, 4}, {3, 2}},    // Numbers for index 1
-            {{2, 4}, {4, 2}},    // Numbers for index 1
-            // Add more arrays for additional indices as needed
-            {{3, 45}, {5, 2}}, // Numbers for index 2
-            {{4, 45}, {6, 2}}, // Numbers for index 2
-            {{6, 45}, {7, 2}, {5, 2}, {4, 2}}, // Numbers for index 2
-            {},
-            // Numbers for index 2
-    };
+//    int[][][] numbersArray = {{{1, 3}}, // Numbers for index 0
+//            {{2, 4}, {3, 5}, {6, 3}},    // Numbers for index 1
+//            {{1, 4}, {3, 2}},    // Numbers for index 1
+//            {{2, 4}, {4, 2}},    // Numbers for index 1
+//            // Add more arrays for additional indices as needed
+//            {{3, 45}, {5, 2}}, // Numbers for index 2
+//            {{4, 45}, {6, 2}}, // Numbers for index 2
+//            {{6, 45}, {7, 2}, {5, 2}, {4, 2}}, // Numbers for index 2
+//            {},
+//            // Numbers for index 2
+//    };
 
     ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
     ArrayList<Double> pathsGains = new ArrayList<>();
@@ -148,7 +147,7 @@ public class SignalFLow {
         in = new ArrayList<>();
         vis = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < postedGraph.size(); i++) {
             vis.add(false);
             in.add(false);
         }
@@ -178,9 +177,7 @@ public class SignalFLow {
                 gain /= p.gain;
             }
         }
-
-        if (i == (numbersArray.length - 1)) {
-
+        if (i == (graph.size() - 1)) {
             paths.add(new ArrayList<>());
             int last = paths.size() - 1;
             for (Integer node : st) {
@@ -368,12 +365,11 @@ public class SignalFLow {
     double overAllTransferFunction() {
         intiAllArrayList();
         delta = getDelta();
-        double numerator = 0;
+        double numerator = 1;
         for (int i = 0; i < paths.size(); i++) {
             numerator += computeDeltaForPathK(i);
         }
         System.out.println("  numerator is " + numerator + " deltat is " + getDelta());
-        System.out.println(paths.size());
         transferFunction = numerator / getDelta();
         return numerator / getDelta();
 
@@ -384,21 +380,6 @@ public class SignalFLow {
             delta = computeDelta();
         }
         return delta;
-    }
-
-    public void clear() {
-        graph = new ArrayList<>();
-        in = new ArrayList<>();
-        vis = new ArrayList<>();
-        st = new Stack<>();
-        temp = new Stack<>();
-        nonTouchingLoops = new ArrayList<>();
-        allDeltasOfAllPaths = new ArrayList<>();
-        paths = new ArrayList<>();
-        pathsGains = new ArrayList<>();
-        allDeltasOfAllPaths = new ArrayList<>();
-        loops = new ArrayList<>();
-        loopsGains = new ArrayList<>();
     }
 
 }
